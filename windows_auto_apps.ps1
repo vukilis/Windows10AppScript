@@ -52,24 +52,19 @@ foreach ($name in $packages)
 	}
 }
 # Y or N to install packages
-While($answer -ne "Y" ){
-	$answer = $(Write-Host "Do you want to proceed instalation? [Yy]/[Nn]: " -NoNewLine -ForegroundColor White) + $(Read-Host) 
-	Switch ($answer.ToLower()) 
-		{ 
-			Y {
-				foreach ($name in $packages)
-				{
-					try {
-						winget install -e $name.package | Out-Host
-						# Write-Host $name.package -ForegroundColor Yellow
-					}
-					catch {
-						Write-Output `n"$($name.package) - $($_.Exception.Message)"
-					}
-				}
-				Break
-			} 
-			N {Write-Host "Goodbye" -ForegroundColor Red;Return} 
-			default {Write-Host "Only [Yy]/[Nn] are Valid responses" -ForegroundColor DarkRed}
-		} 
+$answer = $(Write-Host "Do you want to proceed instalation? [Yy]/[Nn]: " -NoNewLine -ForegroundColor White) + $(Read-Host) 
+if ("Y" -eq $answer.ToLower()){
+	foreach ($name in $packages)
+	{
+		try {
+			winget install -e $name.package | Out-Host
+			# Write-Host $name.package -ForegroundColor Yellow
+		}
+		catch {
+			Write-Output `n"$($name.package) - $($_.Exception.Message)"
+		}
+	}
+}
+else{
+	Write-Host "Goodbye" -ForegroundColor Red
 }
