@@ -9,34 +9,30 @@ else{
 	Start-Process "ms-appinstaller:?source=https://aka.ms/getwinget"
 	$nid = (Get-Process AppInstaller).Id
 	Wait-Process -Id $nid
-	Write-Host Winget Installed
+	Write-Host `nWinget Installed
     $ResultText.text = "`r`n" +"`r`n" + "Winget Installed - Ready for Next Task"
 }
-
+# Write-Host ""
 #get file from web and parse json
 # loop thought package and install them
 # package file name and how many packages
 $url = Invoke-WebRequest -Uri "https://raw.githubusercontent.com/vukilis/Windows10AppScript/main/package.json" -UseBasicParsing
 $packages = ConvertFrom-Json $url.content
 
-$packages | Measure-Object -Property package
-# foreach ($number in $packages)
-# {       
-#     $length = Object.keys($number).length
-#     # $m = $number | measure
-#     # $m.Count
-# }
+$number = ($packages).Length
+Write-Host `n"Number of packages: $number"
+# Write-Host ""
 
-echo "Packages:"
-
+Write-Host `n"Packages:" -ForegroundColor Magenta
+Write-Host ""
 foreach ($name in $packages)
 {
     try {
 		# winget install -e $name.package | Out-Host
-        Write-Host $name.package 
+        Write-Host $name.package -ForegroundColor Yellow
 	}
 	catch {
-		Write-Output "$($name.package) - $($_.Exception.Message)"
+		Write-Output `n"$($name.package) - $($_.Exception.Message)"
 	}
 }
 

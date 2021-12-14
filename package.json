@@ -4,8 +4,5 @@
     },
     {
         "package" : "Microsoft.PowerToys"
-    },
-    {
-        "package" : "Microsoft.PowerToys2"
     }
 ]
