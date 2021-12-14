@@ -16,8 +16,24 @@ else{
 #get file from web and parse json
 # loop thought package and install them
 # package file name and how many packages
-$url = Invoke-WebRequest -Uri "https://raw.githubusercontent.com/vukilis/Windows10AppScript/main/package.json" -UseBasicParsing
-$packages = ConvertFrom-Json $url.content
+# "https://raw.githubusercontent.com/vukilis/Windows10AppScript/main/package.json"
+# package.json
+do {
+	$setUrl = $(Write-Host "Enter your JSON file [URL or Local]: " -NoNewLine -ForegroundColor White) + $(Read-Host) 
+	if ($setUrl -like '*https*' -or $setUrl -like '*http*'){
+		Write-Host 'Your JSON file is good!' -ForegroundColor Green
+		$url = Invoke-WebRequest -Uri $setUrl -UseBasicParsing
+		$packages = ConvertFrom-Json $url.content
+	}
+	elseif (Test-Path -Path "$setUrl"){
+		Write-Host 'Your JSON file is good!' -ForegroundColor Green
+		$packages = Get-Content $setUrl | ConvertFrom-Json
+	}
+	else{
+		Write-Host "Please enter correct URL or Local path!" -ForegroundColor Red
+	}
+}
+Until ($setUrl -like '*https*' -or $setUrl -like '*http*' -or (Test-Path -Path "$setUrl")) 
 
 $number = ($packages).Length
 Write-Host `n"Number of packages: $number" -ForegroundColor DarkMagenta
@@ -40,8 +56,8 @@ if ("Y" -eq $answer.ToLower()){
 	foreach ($name in $packages)
 	{
 		try {
-			winget install -e $name.package | Out-Host
-			# Write-Host $name.package -ForegroundColor Yellow
+			# winget install -e $name.package | Out-Host
+			Write-Host $name.package -ForegroundColor Yellow
 		}
 		catch {
 			Write-Output `n"$($name.package) - $($_.Exception.Message)"
