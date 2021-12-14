@@ -18,8 +18,6 @@ else{
 # package file name and how many packages
 # "https://raw.githubusercontent.com/vukilis/Windows10AppScript/main/package.json"
 # package.json
-#ddddddddddddddd
-#ddddddddddddddddd
 do {
 	$setUrl = $(Write-Host "Enter your JSON file [URL or Local]: " -NoNewLine -ForegroundColor White) + $(Read-Host) 
 	if ($setUrl -like '*https*' -or $setUrl -like '*http*'){
@@ -53,19 +51,24 @@ foreach ($name in $packages)
 	}
 }
 # Y or N to install packages
-$answer = $(Write-Host "Do you want to proceed instalation? [Yy]/[Nn]: " -NoNewLine -ForegroundColor White) + $(Read-Host) 
-if ("Y" -eq $answer.ToLower()){
-	foreach ($name in $packages)
-	{
-		try {
-			winget install -e $name.package | Out-Host
-			# Write-Host $name.package -ForegroundColor Yellow
-		}
-		catch {
-			Write-Output `n"$($name.package) - $($_.Exception.Message)"
-		}
-	}
-}
-else{
-	Write-Host "Goodbye" -ForegroundColor Red
+While($answer -ne "Y" ){
+	$answer = read-host "Do you want to proceed instalation? [Yy]/[Nn]:"
+	Switch ($answer.ToLower()) 
+		{ 
+			Y {
+				foreach ($name in $packages)
+				{
+					try {
+						# winget install -e $name.package | Out-Host
+						Write-Host $name.package -ForegroundColor Yellow
+					}
+					catch {
+						Write-Output `n"$($name.package) - $($_.Exception.Message)"
+					}
+				}
+				Break
+			} 
+			N {Write-Host "Goodbye" -ForegroundColor Red;Return} 
+			default {Write-Host "Only [Yy]/[Nn] are Valid responses" -ForegroundColor DarkRed}
+		} 
 }
