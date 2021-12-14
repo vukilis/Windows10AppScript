@@ -15,26 +15,41 @@ else{
 
 # loop thought package and install them
 # package file name and how many packages
-dir -Include *.config -Recurse | 
-    % { $_ | select name, @{n="Total";e={
-        get-content $_ | 
-            measure-object -line |
-                select -expa lines }
-                        } 
-    } | ft -AutoSize
+# $url = "https://raw.githubusercontent.com/vukilis/Windows10AppScript/main/packages.config"
+# $packages = Invoke-WebRequest -Uri $url -UseBasicParsing
+
+# dir -Include *.config -Recurse | 
+#     % { $_ | select name, @{n="Total";e={
+#         get-content $_ | 
+#             measure-object -line |
+#                 select -expa lines }
+#                         } 
+#     } | ft -AutoSize
+
+# foreach ($letter in $packages)
+# {   
+#     $m = $letter | measure
+#     $m.Count
+# }
+
+$webData = Invoke-WebRequest -Uri "https://api.github.com/repos/PowerShell/PowerShell/releases/latest"
 
 echo "Packages:"
+# $letterArray = "SumatraPDF.SumatraPDF","Microsoft.PowerToys"
+# foreach ($letter in $letterArray)
+# {
+#     winget install -e $letter | Out-Host
+#     Write-Host $letter
+# }
 
-$url = "https://raw.githubusercontent.com/vukilis/Windows10AppScript/main/packages.config"
-$packages = Invoke-WebRequest -Uri $url -UseBasicParsing
-foreach ($letter in $packages)
+foreach ($name in $packages)
 {
     try {
-		# winget install -e $name | Out-Host
-        Write-Host $letter
+		winget install -e $name | Out-Host
+        Write-Host $name
 	}
 	catch {
-		Write-Output "  $letter - $($_.Exception.Message)"
+		Write-Output "  $name - $($_.Exception.Message)"
 	}
 }
 
