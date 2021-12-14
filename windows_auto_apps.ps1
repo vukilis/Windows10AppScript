@@ -35,6 +35,7 @@ do {
 }
 Until ($setUrl -like '*https*' -or $setUrl -like '*http*' -or (Test-Path -Path "$setUrl")) 
 
+# Count packages
 $number = ($packages).Length
 Write-Host `n"Number of packages: $number" -ForegroundColor DarkMagenta
 
