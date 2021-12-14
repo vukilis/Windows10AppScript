@@ -18,6 +18,8 @@ else{
 # package file name and how many packages
 # "https://raw.githubusercontent.com/vukilis/Windows10AppScript/main/package.json"
 # package.json
+#ddddddddddddddd
+#ddddddddddddddddd
 do {
 	$setUrl = $(Write-Host "Enter your JSON file [URL or Local]: " -NoNewLine -ForegroundColor White) + $(Read-Host) 
 	if ($setUrl -like '*https*' -or $setUrl -like '*http*'){
