@@ -56,8 +56,8 @@ if ("Y" -eq $answer.ToLower()){
 	foreach ($name in $packages)
 	{
 		try {
-			# winget install -e $name.package | Out-Host
-			Write-Host $name.package -ForegroundColor Yellow
+			winget install -e $name.package | Out-Host
+			# Write-Host $name.package -ForegroundColor Yellow
 		}
 		catch {
 			Write-Output `n"$($name.package) - $($_.Exception.Message)"
