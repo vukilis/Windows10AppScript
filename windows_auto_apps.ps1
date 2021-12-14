@@ -52,7 +52,7 @@ foreach ($name in $packages)
 }
 # Y or N to install packages
 While($answer -ne "Y" ){
-	$answer = read-host "Do you want to proceed instalation? [Yy]/[Nn]:"
+	$answer = $(Write-Host "Do you want to proceed instalation? [Yy]/[Nn]: " -NoNewLine -ForegroundColor White) + $(Read-Host) 
 	Switch ($answer.ToLower()) 
 		{ 
 			Y {
