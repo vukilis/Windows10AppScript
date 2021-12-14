@@ -1,6 +1,51 @@
+# Show art and about 
+
+$art = @"
+ __      __          _      __   _   _       
+ \ \    / /         | |    /_ | | | (_)      
+  \ \  / /   _   _  | | __  | | | |  _   ___ 
+   \ \/ /   | | | | | |/ /  | | | | | | / __|
+    \  /    | |_| | |   <   | | | | | | \__ \
+     \/      \__,_| |_|\_\  |_| |_| |_| |___/
+
+"@
+
+for ($i=0;$i -lt $art.length;$i++) {
+	if ($i%2) {
+		$ch = "Magenta"
+	}
+	elseif ($i%5) {
+		$ch = "Cyan"
+	}
+	elseif ($i%7) {
+		$ch = "DarkRed"
+	}
+	else {
+		$ch = "DarkMagenta"
+	}
+	write-host $art[$i] -NoNewline -ForegroundColor $ch
+}
+
+write-host `n" - This is a script to automate software installation - 
+ - Github link: https://github.com/vukilis/Windows10AppScript - " -ForegroundColor DarkMagenta
+
+#######################################SCRIPT START###############################################################
+# Y or N to start script
+While($continue -ne "Y" ){
+	$continue = $(Write-Host `n"Do you want to continue? [Yy]/[Nn]: " -NoNewLine -ForegroundColor White) + $(Read-Host) 
+	Switch ($continue.ToLower()) 
+		{ 
+			Y {
+				Continue
+			} 
+			N {Write-Host "Goodbye" -ForegroundColor Red;Return} 
+			default {Write-Host "Only [Yy]/[Nn] are Valid responses" -ForegroundColor DarkRed}
+		} 
+}
+########################################END START SCRIPT##########################################################
 # Check if winget is installed
 if (Test-Path ~\AppData\Local\Microsoft\WindowsApps\winget.exe){
-    Write-Host 'Winget Already Installed' -ForegroundColor Green
+    Write-Host `n'Winget Already Installed' -ForegroundColor Green
 }  
 else{
     # Installing winget from the Microsoft Store
@@ -19,7 +64,7 @@ else{
 # "https://raw.githubusercontent.com/vukilis/Windows10AppScript/main/package.json"
 # package.json
 do {
-	$setUrl = $(Write-Host "Enter your JSON file [URL or Local]: " -NoNewLine -ForegroundColor White) + $(Read-Host) 
+	$setUrl = $(Write-Host `n"Enter your JSON file [URL or Local]: " -NoNewLine -ForegroundColor White) + $(Read-Host) 
 	if ($setUrl -like '*https*' -or $setUrl -like '*http*'){
 		Write-Host 'Your JSON file is good!' -ForegroundColor Green
 		$url = Invoke-WebRequest -Uri $setUrl -UseBasicParsing
@@ -53,7 +98,7 @@ foreach ($name in $packages)
 }
 # Y or N to install packages
 While($answer -ne "Y" ){
-	$answer = $(Write-Host "Do you want to proceed instalation? [Yy]/[Nn]: " -NoNewLine -ForegroundColor White) + $(Read-Host) 
+	$answer = $(Write-Host `n"Do you want to proceed instalation? [Yy]/[Nn]: " -NoNewLine -ForegroundColor White) + $(Read-Host) 
 	Switch ($answer.ToLower()) 
 		{ 
 			Y {
@@ -73,3 +118,4 @@ While($answer -ne "Y" ){
 			default {Write-Host "Only [Yy]/[Nn] are Valid responses" -ForegroundColor DarkRed}
 		} 
 }
+

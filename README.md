@@ -11,6 +11,7 @@ iex ((New-Object System.Net.WebClient).DownloadString('https://git.io/JDBpN'))
 ```
 
 ## What script do 
+* Show start page and ask to continue
 * Check if **winget** is installed, if not, installing **winget** from the Microsoft Store
 * Asks you to enter a **json** file, can be **url** or **local**
 * List all packages
