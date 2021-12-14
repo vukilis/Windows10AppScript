@@ -26,7 +26,7 @@ dir -Include *.config -Recurse |
 # C# (.NET) file reader reads each line one by one
 # best performance, faster then Get-Content(bad perforamance)
 echo "Packages: "
-foreach($name in [System.IO.File]::ReadLines("packages.config")){
+foreach($name in [System.IO.File]::ReadLines("https://github.com/vukilis/Windows10AppScript/blob/main/packages.config")){
     # winget install -e $name | Out-Host
     $name
 }
