@@ -23,11 +23,18 @@ dir -Include *.config -Recurse |
                         } 
     } | ft -AutoSize
 
-# C# (.NET) file reader reads each line one by one
-# best performance, faster then Get-Content(bad perforamance)
-echo "Packages: "
-[string]$Datas = Get-Content ["https://github.com/vukilis/Windows10AppScript/blob/main/packages.config"]
-foreach($name in [System.IO.File]::ReadLines($Datas)){
-    # winget install -e $name | Out-Host
-    $name
+echo "Packages:"
+
+$url = "https://raw.githubusercontent.com/vukilis/Windows10AppScript/main/packages.config"
+$packages = Invoke-WebRequest -Uri $url -UseBasicParsing
+foreach ($letter in $packages)
+{
+    try {
+		# winget install -e $name | Out-Host
+        Write-Host $letter
+	}
+	catch {
+		Write-Output "  $letter - $($_.Exception.Message)"
+	}
 }
+
