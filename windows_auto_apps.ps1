@@ -19,10 +19,12 @@ else{
 $url = Invoke-WebRequest -Uri "https://raw.githubusercontent.com/vukilis/Windows10AppScript/main/package.json" -UseBasicParsing
 $packages = ConvertFrom-Json $url.content
 
-# foreach ($letter in $packages)
-# {   
-#     $m = $letter | measure
-#     $m.Count
+$packages | Measure-Object -Property package
+# foreach ($number in $packages)
+# {       
+#     $length = Object.keys($number).length
+#     # $m = $number | measure
+#     # $m.Count
 # }
 
 echo "Packages:"
