@@ -13,18 +13,11 @@ else{
     $ResultText.text = "`r`n" +"`r`n" + "Winget Installed - Ready for Next Task"
 }
 
+#get file from web and parse json
 # loop thought package and install them
 # package file name and how many packages
-# $url = "https://raw.githubusercontent.com/vukilis/Windows10AppScript/main/packages.config"
-# $packages = Invoke-WebRequest -Uri $url -UseBasicParsing
-
-# dir -Include *.config -Recurse | 
-#     % { $_ | select name, @{n="Total";e={
-#         get-content $_ | 
-#             measure-object -line |
-#                 select -expa lines }
-#                         } 
-#     } | ft -AutoSize
+$url = Invoke-WebRequest -Uri "https://raw.githubusercontent.com/vukilis/Windows10AppScript/main/package.json" -UseBasicParsing
+$packages = ConvertFrom-Json $url.content
 
 # foreach ($letter in $packages)
 # {   
@@ -32,24 +25,16 @@ else{
 #     $m.Count
 # }
 
-$webData = Invoke-WebRequest -Uri "https://api.github.com/repos/PowerShell/PowerShell/releases/latest"
-
 echo "Packages:"
-# $letterArray = "SumatraPDF.SumatraPDF","Microsoft.PowerToys"
-# foreach ($letter in $letterArray)
-# {
-#     winget install -e $letter | Out-Host
-#     Write-Host $letter
-# }
 
 foreach ($name in $packages)
 {
     try {
-		winget install -e $name | Out-Host
-        Write-Host $name
+		# winget install -e $name.package | Out-Host
+        Write-Host $name.package 
 	}
 	catch {
-		Write-Output "  $name - $($_.Exception.Message)"
+		Write-Output "$($name.package) - $($_.Exception.Message)"
 	}
 }
 
